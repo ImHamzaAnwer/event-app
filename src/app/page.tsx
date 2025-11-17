@@ -27,15 +27,7 @@ const Home = async () => {
           {events &&
             events.length > 0 &&
             events.map((event: IEvent) => (
-              <EventCard
-                key={event.slug}
-                slug={event.slug}
-                title={event.title}
-                image={event.image}
-                location={event.location}
-                date={event.date}
-                time={event.time}
-              />
+              <EventCard key={event.slug} {...event} />
             ))}
         </ul>
       </div>

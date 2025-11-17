@@ -1,0 +1,155 @@
+"no cache";
+import BookEvent from "@/components/BookEvent";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const EventDetailItem = ({
+  icon,
+  alt,
+  label,
+}: {
+  icon: string;
+  alt: string;
+  label: string;
+}) => {
+  return (
+    <div className="flex-row-gap-2 items-center">
+      <Image src={icon} alt={alt} width={17} height={17} />
+      <p>{label}</p>
+    </div>
+  );
+};
+
+const EventAgenda = ({ agnedaItems }: { agnedaItems: string[] }) => {
+  return (
+    <div className="agenda">
+      <h2>Agenda</h2>
+      <ul>
+        {agnedaItems.map((item: string) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const EventTags = ({ tags }: { tags: string[] }) => (
+  <div className="flex flex-row gap-1.5 flex-wrap">
+    {tags.map((tag) => (
+      <div key={tag} className="pill">
+        {tag}
+      </div>
+    ))}
+  </div>
+);
+
+const EventDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = await params;
+
+  const response = await fetch(`${BASE_URL}/api/events/${slug}`);
+  const data = await response.json();
+  const event = data.event;
+
+  const {
+    title,
+    description,
+    overview,
+    image,
+    date,
+    time,
+    location,
+    agenda,
+    audience,
+    tags,
+    mode,
+    organizer,
+  } = event;
+
+  if (!description) return notFound();
+
+  const bookings = 10;
+
+  return (
+    <section id="event">
+      <div className="header">
+        <h1>{title}</h1>
+        <p className="mt-2">{description}</p>
+      </div>
+
+      <div className="details">
+        <div className="content">
+          <Image
+            className="banner"
+            src={image}
+            width={800}
+            height={800}
+            alt="banner"
+          />
+
+          <section className="flex-col-gap-2">
+            <h2>Overview</h2>
+            <p>{overview}</p>
+          </section>
+
+          <section className="flex-col-gap-2">
+            <h2 className="mb-1">Event Details</h2>
+            <EventDetailItem
+              icon={"/icons/calendar.svg"}
+              label={date}
+              alt={"date"}
+            />
+            <EventDetailItem
+              icon={"/icons/clock.svg"}
+              label={time}
+              alt={"time"}
+            />
+            <EventDetailItem
+              icon={"/icons/pin.svg"}
+              label={location}
+              alt={"location"}
+            />
+            <EventDetailItem
+              icon={"/icons/mode.svg"}
+              label={mode}
+              alt={"mode"}
+            />
+            <EventDetailItem
+              icon={"/icons/audience.svg"}
+              label={audience}
+              alt={"audience"}
+            />
+          </section>
+
+          <EventAgenda agnedaItems={JSON.parse(agenda[0])} />
+
+          <section className="flex-col-gap-2">
+            <h2>About the organizer</h2>
+            <p>{organizer}</p>
+          </section>
+
+          <EventTags tags={JSON.parse(tags[0])} />
+        </div>
+
+        <aside className="booking">
+          <div className="signup-card">
+            <h2>Book your spot</h2>
+            <p className="text-sm">
+              {bookings > 0
+                ? `Join ${bookings} people who have already booked their spot`
+                : "Be the first to book your spot"}
+            </p>
+            <BookEvent />
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+};
+
+export default EventDetailsPage;

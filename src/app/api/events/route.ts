@@ -44,3 +44,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Failed to create event", message: error instanceof Error ? error.message : "Unknown" }, { status: 500 });
     }
 }
+
+export async function GET() {
+    try {
+        await connectDB();
+        const events = await Event.find().lean().sort({ createdAt: -1 });
+        return NextResponse.json({ message: "Events fetched successfully", events }, { status: 200 });
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({ error: "Failed to get events", message: error instanceof Error ? error.message : "Unknown" }, { status: 500 });
+    }
+}

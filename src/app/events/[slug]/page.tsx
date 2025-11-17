@@ -1,5 +1,8 @@
 "no cache";
 import BookEvent from "@/components/BookEvent";
+import EventCard from "@/components/EventCard";
+import { IEvent } from "@/database";
+import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -55,6 +58,8 @@ const EventDetailsPage = async ({
   const response = await fetch(`${BASE_URL}/api/events/${slug}`);
   const data = await response.json();
   const event = data.event;
+
+  const similarEvents = await getSimilarEventsBySlug(slug);
 
   const {
     title,
@@ -126,14 +131,14 @@ const EventDetailsPage = async ({
             />
           </section>
 
-          <EventAgenda agnedaItems={JSON.parse(agenda[0])} />
+          <EventAgenda agnedaItems={agenda} />
 
           <section className="flex-col-gap-2">
             <h2>About the organizer</h2>
             <p>{organizer}</p>
           </section>
 
-          <EventTags tags={JSON.parse(tags[0])} />
+          <EventTags tags={tags} />
         </div>
 
         <aside className="booking">
@@ -148,6 +153,17 @@ const EventDetailsPage = async ({
           </div>
         </aside>
       </div>
+
+      {similarEvents && similarEvents?.length > 0 && (
+        <div className="flex flex-col w-full gap-4 pt-20">
+          <h2>Similar Events</h2>
+          <div className="events">
+            {similarEvents.map((similarEvent: IEvent) => {
+              return <EventCard key={similarEvent.slug} {...similarEvent} />;
+            })}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

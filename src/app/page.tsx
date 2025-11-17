@@ -1,4 +1,6 @@
+import EventCard from "@/components/EventCard";
 import ExploreBtn from "@/components/ExploreBtn";
+import { developerEvents } from "@/lib/constants";
 
 const Home = () => {
   return (
@@ -11,6 +13,24 @@ const Home = () => {
       </p>
 
       <ExploreBtn />
+
+      <div className="mt-20 space-y-7">
+        <h3>Featured Events</h3>
+
+        <ul className="events">
+          {developerEvents.map((event) => (
+            <EventCard
+              key={event.slug}
+              slug={event.slug}
+              title={event.title}
+              image={event.image}
+              location={event.location}
+              date={event.date}
+              time={event.time}
+            />
+          ))}
+        </ul>
+      </div>
     </section>
   );
 };

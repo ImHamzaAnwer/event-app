@@ -152,7 +152,7 @@ const EventDetailsPage = async ({
                 ? `Join ${bookings} people who have already booked their spot`
                 : "Be the first to book your spot"}
             </p>
-            <BookEvent />
+            <BookEvent eventId={event._id} slug={slug} />
           </div>
         </aside>
       </div>

@@ -19,9 +19,20 @@ export async function POST(req: NextRequest) {
         const file = formData.get("image") as File;
         if (!file) return NextResponse.json({ error: "Image is required" }, { status: 400 });
 
-        const tags = JSON.parse(formData.get("tags") as string)
-        const agenda = JSON.parse(formData.get("agenda") as string)
-
+        let tags: unknown = [];
+        let agenda: unknown = [];
+        try {
+            const rawTags = formData.get("tags") as string | null;
+            const rawAgenda = formData.get("agenda") as string | null;
+            tags = rawTags ? JSON.parse(rawTags) : [];
+            agenda = rawAgenda ? JSON.parse(rawAgenda) : [];
+        } catch (error) {
+            console.error("Failed to parse tags/agenda JSON", error);
+            return NextResponse.json(
+                { error: "Invalid tags or agenda JSON" },
+                { status: 400 }
+            );
+        }
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 

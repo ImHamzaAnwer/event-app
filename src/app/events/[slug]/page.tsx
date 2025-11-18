@@ -1,4 +1,3 @@
-"no cache";
 import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
@@ -25,12 +24,12 @@ const EventDetailItem = ({
   );
 };
 
-const EventAgenda = ({ agnedaItems }: { agnedaItems: string[] }) => {
+const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => {
   return (
     <div className="agenda">
       <h2>Agenda</h2>
       <ul>
-        {agnedaItems.map((item: string) => (
+        {agendaItems.map((item: string) => (
           <li key={item}>{item}</li>
         ))}
       </ul>
@@ -59,7 +58,9 @@ const EventDetailsPage = async ({
   const data = await response.json();
   const event = data.event;
 
-  const similarEvents = await getSimilarEventsBySlug(slug);
+  if (!event) {
+    notFound();
+  }
 
   const {
     title,
@@ -77,6 +78,8 @@ const EventDetailsPage = async ({
   } = event;
 
   if (!description) return notFound();
+
+  const similarEvents = await getSimilarEventsBySlug(slug);
 
   const bookings = 10;
 
@@ -131,7 +134,7 @@ const EventDetailsPage = async ({
             />
           </section>
 
-          <EventAgenda agnedaItems={agenda} />
+          <EventAgenda agendaItems={agenda} />
 
           <section className="flex-col-gap-2">
             <h2>About the organizer</h2>

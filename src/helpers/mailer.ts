@@ -30,7 +30,7 @@ export const sendEmail = async ({ email, emailType, userId }: { email: string, e
         } as SMTPTransport.Options);
 
 
-        const link = `https://localhost:3000/verifyToken?token=${hashedToken}`
+        const link = `http://localhost:3000/verifyToken?token=${hashedToken}`
         const response = await transporter.sendMail({
             from: '"Events App" <hamza.anwer8@gmail.com>',
             to: email,

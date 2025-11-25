@@ -11,7 +11,7 @@ interface LoginBody {
 
 export async function POST(req: NextRequest) {
     try {
-        const userInfo: SignupBody = await req.json();
+        const userInfo: LoginBody = await req.json();
         const { email, password } = userInfo;
 
         await connectDB();

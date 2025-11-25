@@ -1,12 +1,9 @@
 "use client";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function VerifyEmail() {
-  const [verified, setVerified] = useState(false);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const params = useSearchParams();
 

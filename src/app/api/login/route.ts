@@ -4,10 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 
-interface SignupBody {
+interface LoginBody {
     email: string;
     password: string;
-    username: string;
 }
 
 export async function POST(req: NextRequest) {

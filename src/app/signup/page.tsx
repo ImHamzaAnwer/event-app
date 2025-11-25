@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SignupPage() {
-  const [user, setUser] = useState({ email: "", password: "", username: "" });
+  const [user, setUser] = useState({ email: "", password: "", username: "", isAdmin: false });
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -57,6 +57,16 @@ export default function SignupPage() {
         value={user.password}
         onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
+
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={user.isAdmin}
+          onChange={(e) => setUser({ ...user, isAdmin: e.target.checked })}
+          className="w-4 h-4"
+        />
+        <span>Sign up as event manager</span>
+      </label>
 
       <button
         type="button"

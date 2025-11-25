@@ -1,11 +1,13 @@
 "use client";
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default function Profile() {
   const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -22,6 +24,11 @@ export default function Profile() {
     fetchProfile();
   }, []);
 
+  const logout = async () => {
+    const response = await axios.post("/api/logout");
+    if (response.status === 200) router.push("/");
+  };
+
   return (
     <div>
       <h3>Profile page</h3>
@@ -30,6 +37,13 @@ export default function Profile() {
           {user.username}
           <br />
           {user.email}
+          <br />
+          <button
+            onClick={logout}
+            className="p-2 rounded bg-white text-red-500"
+          >
+            Logout
+          </button>
         </div>
       )}
     </div>

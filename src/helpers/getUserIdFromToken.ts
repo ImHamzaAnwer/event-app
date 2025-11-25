@@ -15,13 +15,13 @@ export const getUserIdFromToken = async () => {
         const tokenValue = cookieStore.get("token")?.value;
 
         if (!tokenValue) {
-            throw new Error("No authentication token found");
+            return null
         }
 
         const decoded = jwt.verify(tokenValue, secret) as TokenPayload;
         return decoded?.id || null;
 
-    } catch (error) {
-        throw new Error(error instanceof Error ? error.message : "");
+    } catch {
+        return null
     }
 };

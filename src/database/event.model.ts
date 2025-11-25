@@ -1,4 +1,4 @@
-import { Schema, model, models, Document } from 'mongoose';
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 // TypeScript interface for Event document
 export interface IEvent extends Document {
@@ -11,11 +11,18 @@ export interface IEvent extends Document {
   location: string;
   date: string;
   time: string;
-  mode: string;
-  audience: string;
-  agenda: string[];
   organizer: string;
   tags: string[];
+  isPublished: boolean;
+  isCancelled: boolean;
+  createdBy: Types.ObjectId;
+  capacity?: number;
+  price?: number;
+  featured?: boolean;
+  // Classical music specific fields
+  composers?: string[];
+  program?: string[]; // List of pieces/works being performed
+  performers?: string[]; // Soloists, orchestras, ensembles
   createdAt: Date;
   updatedAt: Date;
 }
@@ -69,27 +76,6 @@ const EventSchema = new Schema<IEvent>(
       type: String,
       required: [true, 'Time is required'],
     },
-    mode: {
-      type: String,
-      required: [true, 'Mode is required'],
-      enum: {
-        values: ['online', 'offline', 'hybrid'],
-        message: 'Mode must be either online, offline, or hybrid',
-      },
-    },
-    audience: {
-      type: String,
-      required: [true, 'Audience is required'],
-      trim: true,
-    },
-    agenda: {
-      type: [String],
-      required: [true, 'Agenda is required'],
-      validate: {
-        validator: (v: string[]) => v.length > 0,
-        message: 'At least one agenda item is required',
-      },
-    },
     organizer: {
       type: String,
       required: [true, 'Organizer is required'],
@@ -102,6 +88,44 @@ const EventSchema = new Schema<IEvent>(
         validator: (v: string[]) => v.length > 0,
         message: 'At least one tag is required',
       },
+    },
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
+    isCancelled: {
+      type: Boolean,
+      default: false,
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Created by is required'],
+    },
+    capacity: {
+      type: Number,
+      min: [1, 'Capacity must be at least 1'],
+    },
+    price: {
+      type: Number,
+      min: [0, 'Price cannot be negative'],
+    },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    // Classical music specific fields
+    composers: {
+      type: [String],
+      trim: true,
+    },
+    program: {
+      type: [String],
+      trim: true,
+    },
+    performers: {
+      type: [String],
+      trim: true,
     },
   },
   {
@@ -182,7 +206,11 @@ function normalizeTime(timeString: string): string {
 EventSchema.index({ slug: 1 }, { unique: true });
 
 // Create compound index for common queries
-EventSchema.index({ date: 1, mode: 1 });
+EventSchema.index({ date: 1 });
+EventSchema.index({ status: 1, isPublished: 1 });
+EventSchema.index({ createdBy: 1 });
+// Index for composers search
+EventSchema.index({ composers: 1 });
 
 const Event = models.Event || model<IEvent>('Event', EventSchema);
 

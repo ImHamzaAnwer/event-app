@@ -16,7 +16,7 @@ const NavBar = async () => {
         <ul>
           <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
-          <Link href="/create">Create Event</Link>
+          <Link href="/dashboard">Manage Events</Link>
           <Link href={`/profile/${userId}`}>Profile</Link>
         </ul>
       </nav>

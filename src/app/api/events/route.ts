@@ -2,6 +2,7 @@ import { Event } from "@/database";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
+import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,16 +21,22 @@ export async function POST(req: NextRequest) {
         if (!file) return NextResponse.json({ error: "Image is required" }, { status: 400 });
 
         let tags: unknown = [];
-        let agenda: unknown = [];
+        let program: unknown = [];
+        let composers: unknown = [];
+        let performers: unknown = [];
         try {
             const rawTags = formData.get("tags") as string | null;
-            const rawAgenda = formData.get("agenda") as string | null;
+            const rawProgram = formData.get("program") as string | null;
+            const rawComposers = formData.get("composers") as string | null;
+            const rawPerformers = formData.get("performers") as string | null;
             tags = rawTags ? JSON.parse(rawTags) : [];
-            agenda = rawAgenda ? JSON.parse(rawAgenda) : [];
+            program = rawProgram ? JSON.parse(rawProgram) : [];
+            composers = rawComposers ? JSON.parse(rawComposers) : [];
+            performers = rawPerformers ? JSON.parse(rawPerformers) : [];
         } catch (error) {
-            console.error("Failed to parse tags/agenda JSON", error);
+            console.error("Failed to parse JSON fields", error);
             return NextResponse.json(
-                { error: "Invalid tags or agenda JSON" },
+                { error: "Invalid JSON format in form data" },
                 { status: 400 }
             );
         }
@@ -49,7 +56,20 @@ export async function POST(req: NextRequest) {
 
         event.image = (uploadResult as { secure_url: string }).secure_url;
 
-        const createdEvent = await Event.create({ ...event, agenda, tags });
+        // Get the authenticated user ID
+        const userId = await getUserIdFromToken();
+        if (!userId) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const createdEvent = await Event.create({
+            ...event,
+            program,
+            tags,
+            composers: composers || [],
+            performers: performers || [],
+            createdBy: userId
+        });
 
         return NextResponse.json({ message: "Event created successfully", event: createdEvent }, { status: 201 });
     }

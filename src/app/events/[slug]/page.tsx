@@ -24,12 +24,14 @@ const EventDetailItem = ({
   );
 };
 
-const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => {
+const EventProgram = ({ programItems }: { programItems: string[] }) => {
+  if (!programItems || programItems.length === 0) return null;
+  
   return (
     <div className="agenda">
-      <h2>Agenda</h2>
+      <h2>Program</h2>
       <ul>
-        {agendaItems.map((item: string) => (
+        {programItems.map((item: string) => (
           <li key={item}>{item}</li>
         ))}
       </ul>
@@ -70,10 +72,10 @@ const EventDetailsPage = async ({
     date,
     time,
     location,
-    agenda,
-    audience,
+    program,
+    composers,
+    performers,
     tags,
-    mode,
     organizer,
   } = event;
 
@@ -122,19 +124,35 @@ const EventDetailsPage = async ({
               label={location}
               alt={"location"}
             />
-            <EventDetailItem
-              icon={"/icons/mode.svg"}
-              label={mode}
-              alt={"mode"}
-            />
-            <EventDetailItem
-              icon={"/icons/audience.svg"}
-              label={audience}
-              alt={"audience"}
-            />
           </section>
 
-          <EventAgenda agendaItems={agenda} />
+          {composers && composers.length > 0 && (
+            <section className="flex-col-gap-2">
+              <h2>Composers</h2>
+              <div className="flex flex-row gap-1.5 flex-wrap">
+                {composers.map((composer: string) => (
+                  <div key={composer} className="pill">
+                    {composer}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {performers && performers.length > 0 && (
+            <section className="flex-col-gap-2">
+              <h2>Performers</h2>
+              <div className="flex flex-row gap-1.5 flex-wrap">
+                {performers.map((performer: string) => (
+                  <div key={performer} className="pill">
+                    {performer}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <EventProgram programItems={program} />
 
           <section className="flex-col-gap-2">
             <h2>About the organizer</h2>

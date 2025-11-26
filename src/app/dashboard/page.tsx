@@ -1,7 +1,7 @@
 "use client";
 
 import { IEvent } from "@/database";
-import { fetchEvents } from "@/lib/eventService";
+import { deleteEvent, fetchEvents } from "@/lib/eventService";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -24,6 +24,13 @@ export default function AdminDashboard() {
 
     getEvents();
   }, []);
+
+  const onDeleteEvent = async (eventId: string) => {
+    const isDeleted = await deleteEvent(eventId);
+    if (isDeleted) {
+      setEvents((prev) => prev.filter((event) => event._id !== eventId));
+    }
+  };
 
   const getStatusBadge = (event: IEvent) => {
     if (event.isCancelled) {
@@ -172,7 +179,10 @@ export default function AdminDashboard() {
                       <button className="text-indigo-600 hover:text-indigo-900">
                         Edit
                       </button>
-                      <button className="text-red-600 hover:text-red-900">
+                      <button
+                        onClick={() => onDeleteEvent(event._id as string)}
+                        className="text-red-600 hover:text-red-900"
+                      >
                         Delete
                       </button>
                     </div>

@@ -89,3 +89,15 @@ export async function GET() {
         return NextResponse.json({ error: "Failed to get events", message: error instanceof Error ? error.message : "Unknown" }, { status: 500 });
     }
 }
+
+export async function DELETE(req: NextRequest) {
+    try {
+        await connectDB();
+        const { eventId } = await req.json();
+        await Event.deleteOne({ _id: eventId })
+        return NextResponse.json({ message: "Event deleted successfully" }, { status: 200 });
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({ error: "Failed to get events", message: error instanceof Error ? error.message : "Unknown" }, { status: 500 });
+    }
+}

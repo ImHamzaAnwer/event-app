@@ -176,9 +176,12 @@ export default function AdminDashboard() {
                       >
                         View
                       </Link>
-                      <button className="text-indigo-600 hover:text-indigo-900">
+                      <Link
+                        className="text-blue-600 hover:text-blue-900"
+                        href={`/dashboard/edit/${event.slug}`}
+                      >
                         Edit
-                      </button>
+                      </Link>
                       <button
                         onClick={() => onDeleteEvent(event._id as string)}
                         className="text-red-600 hover:text-red-900"

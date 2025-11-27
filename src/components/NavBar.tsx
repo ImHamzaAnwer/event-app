@@ -1,9 +1,10 @@
-import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
+import getUserDetails from "@/helpers/getUserDetails";
 import Image from "next/image";
 import Link from "next/link";
 
 const NavBar = async () => {
-  const userId = await getUserIdFromToken();
+  const userDetails = await getUserDetails();
+  const userId = userDetails?._id?.toString();
 
   return (
     <header>
@@ -16,7 +17,7 @@ const NavBar = async () => {
         <ul>
           <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
-          <Link href="/create">Create Event</Link>
+          <Link href="/dashboard">Manage Events</Link>
           <Link href={`/profile/${userId}`}>Profile</Link>
         </ul>
       </nav>

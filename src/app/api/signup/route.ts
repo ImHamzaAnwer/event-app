@@ -8,12 +8,13 @@ interface SignupBody {
     email: string;
     password: string;
     username: string;
+    isAdmin?: boolean;
 }
 
 export async function POST(req: NextRequest) {
     try {
         const userInfo: SignupBody = await req.json();
-        const { email, password, username } = userInfo;
+        const { email, password, username, isAdmin } = userInfo;
 
         await connectDB();
 
@@ -27,7 +28,8 @@ export async function POST(req: NextRequest) {
         const createdUser = await User.create({
             email,
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            isAdmin: isAdmin || false
         })
 
         // send vertification email

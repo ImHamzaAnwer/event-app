@@ -331,7 +331,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
                 type="text"
                 value={composerInput}
                 onChange={(e) => setComposerInput(e.target.value)}
-                onKeyUp={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     addToArray(composerInput, setComposers, setComposerInput);
@@ -376,7 +376,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
                 type="text"
                 value={programInput}
                 onChange={(e) => setProgramInput(e.target.value)}
-                onKeyUp={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     addToArray(programInput, setProgram, setProgramInput);
@@ -421,7 +421,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
                 type="text"
                 value={performerInput}
                 onChange={(e) => setPerformerInput(e.target.value)}
-                onKeyUp={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     addToArray(
@@ -476,7 +476,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
                 type="text"
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
-                onKeyUp={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     addToArray(tagInput, setTags, setTagInput);

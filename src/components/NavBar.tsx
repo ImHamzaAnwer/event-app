@@ -1,12 +1,10 @@
 import getUserDetails from "@/helpers/getUserDetails";
-import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
 import Image from "next/image";
 import Link from "next/link";
 
 const NavBar = async () => {
-  const userId = await getUserIdFromToken();
   const userDetails = await getUserDetails();
-  console.log(userDetails, "userDetails");
+  const userId = userDetails?._id?.toString();
 
   return (
     <header>
@@ -19,7 +17,7 @@ const NavBar = async () => {
         <ul>
           <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
-          {userDetails.isAdmin && <Link href="/dashboard">Manage Events</Link>}
+          <Link href="/dashboard">Manage Events</Link>
           <Link href={`/profile/${userId}`}>Profile</Link>
         </ul>
       </nav>

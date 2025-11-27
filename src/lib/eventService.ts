@@ -8,7 +8,12 @@ export const fetchEvents = async (): Promise<IEvent[]> => {
 };
 
 export const deleteEvent = async (eventId: string): Promise<boolean> => {
-    const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events`, { data: { eventId } });
-    if (res.status === 200) return true;
-    return false;
+    try {
+        const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events`, { data: { eventId } });
+        return res.status === 200;
+    }
+    catch {
+        return false
+    }
+
 };

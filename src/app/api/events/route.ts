@@ -162,7 +162,6 @@ export async function PUT(req: NextRequest) {
                 program,
                 composers,
                 performers,
-                updatedBy: userId,
             },
             { new: true } // return the updated document
         );
@@ -184,11 +183,16 @@ export async function PUT(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     try {
         await connectDB();
+        const userId = await getUserIdFromToken();
+        if (!userId) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const { eventId } = await req.json();
         await Event.deleteOne({ _id: eventId })
         return NextResponse.json({ message: "Event deleted successfully" }, { status: 200 });
     } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: "Failed to get events", message: error instanceof Error ? error.message : "Unknown" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to delete event", message: error instanceof Error ? error.message : "Unknown" }, { status: 500 });
     }
 }

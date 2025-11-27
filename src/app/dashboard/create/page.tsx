@@ -13,7 +13,7 @@ export default function CreateEventPage() {
         </Link>
         <h1 className="text-3xl font-bold">Create New Event</h1>
       </div>
-      <EventForm mode="create" />;
+      <EventForm mode="create" />
     </div>
   );
 }

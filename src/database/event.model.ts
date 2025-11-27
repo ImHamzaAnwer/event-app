@@ -13,7 +13,6 @@ export interface IEvent extends Document {
   time: string;
   organizer: string;
   tags: string[];
-  isPublished: boolean;
   isCancelled: boolean;
   createdBy: Types.ObjectId;
   capacity?: number;
@@ -87,10 +86,6 @@ const EventSchema = new Schema<IEvent>(
         validator: (v: string[]) => v.length > 0,
         message: 'At least one tag is required',
       },
-    },
-    isPublished: {
-      type: Boolean,
-      default: false,
     },
     isCancelled: {
       type: Boolean,

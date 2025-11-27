@@ -27,7 +27,6 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
     organizer: initialData?.organizer || "",
     capacity: initialData?.capacity || 0,
     price: initialData?.price || 0,
-    isPublished: initialData?.isPublished || false,
     featured: initialData?.featured || false,
     isCancelled: initialData?.isCancelled || false,
   });
@@ -85,10 +84,8 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
         }
       });
 
-      // Always publish when creating
       if (isEditing) formDataToSend.append("eventId", initialData._id);
-      formDataToSend.append("isPublished", "true");
-
+    
       // Add arrays as JSON strings
       formDataToSend.append("tags", JSON.stringify(tags));
       formDataToSend.append("composers", JSON.stringify(composers));

@@ -24,7 +24,8 @@ export async function POST(req: NextRequest) {
 
         const tokenPayload = {
             id: user._id,
-            email: user.email
+            email: user.email,
+            isAdmin: user?.isAdmin || false
         }
 
         const signedToken = jwt.sign(tokenPayload, process.env.AUTH_SECRET as string, { expiresIn: "1d" })

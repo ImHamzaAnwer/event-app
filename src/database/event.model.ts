@@ -110,16 +110,22 @@ const EventSchema = new Schema<IEvent>(
     },
     // Classical music specific fields
     composers: {
-      type: [String],
-      trim: true,
+      type: [{
+        type: String,
+        trim: true,
+      }],
     },
     program: {
-      type: [String],
-      trim: true,
+      type: [{
+        type: String,
+        trim: true,
+      }],
     },
     performers: {
-      type: [String],
-      trim: true,
+      type: [{
+        type: String,
+        trim: true,
+      }],
     },
   },
   {

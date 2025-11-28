@@ -83,7 +83,8 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     try {
         await connectDB();
-        const events = await Event.find().lean().sort({ createdAt: -1 });
+        const userId = await getUserIdFromToken()
+        const events = await Event.find({ createdBy: userId }).lean().sort({ createdAt: -1 });
         return NextResponse.json({ message: "Events fetched successfully", events }, { status: 200 });
     } catch (error) {
         console.log(error);

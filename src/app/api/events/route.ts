@@ -3,7 +3,7 @@ import { Event } from "@/database";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { getUserIdFromToken } from "@/helpers/getUserIdFromToken";
+import getUserDetails from "@/helpers/getUserDetails";
 
 export async function POST(req: NextRequest) {
     try {
@@ -58,7 +58,8 @@ export async function POST(req: NextRequest) {
         event.image = (uploadResult as { secure_url: string }).secure_url;
 
         // Get the authenticated user ID
-        const userId = await getUserIdFromToken();
+        const user = await getUserDetails();
+        const userId = await user?._id;
         if (!userId) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
@@ -83,8 +84,9 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     try {
         await connectDB();
-        const userId = await getUserIdFromToken()
-        const events = await Event.find({ createdBy: userId }).lean().sort({ createdAt: -1 });
+        const user = await getUserDetails();
+        console.log(user, "hahahah")
+        const events = await Event.find({ createdBy: user?._id }).lean().sort({ createdAt: -1 });
         return NextResponse.json({ message: "Events fetched successfully", events }, { status: 200 });
     } catch (error) {
         console.log(error);
@@ -149,7 +151,8 @@ export async function PUT(req: NextRequest) {
         }
 
         // Get authenticated user
-        const userId = await getUserIdFromToken();
+        const user = await getUserDetails();
+        const userId = await user?._id;
         if (!userId) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
@@ -184,7 +187,8 @@ export async function PUT(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     try {
         await connectDB();
-        const userId = await getUserIdFromToken();
+        const user = await getUserDetails();
+        const userId = await user?._id;
         if (!userId) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }

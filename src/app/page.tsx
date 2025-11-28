@@ -1,11 +1,6 @@
-import EventCard from "@/components/EventCard";
 import ExploreBtn from "@/components/ExploreBtn";
-import { IEvent } from "@/database";
-import { getAllEvents } from "@/lib/actions/event.actions";
 
 const Home = async () => {
-  const events: IEvent[] = await getAllEvents();
-
   return (
     <section>
       <h1 className="text-center">
@@ -16,18 +11,6 @@ const Home = async () => {
       </p>
 
       <ExploreBtn />
-
-      <div className="mt-20 space-y-7">
-        <h3>Featured Events</h3>
-
-        <ul className="events">
-          {events &&
-            events.length > 0 &&
-            events.map((event: IEvent) => (
-              <EventCard key={event.slug} {...event} />
-            ))}
-        </ul>
-      </div>
     </section>
   );
 };

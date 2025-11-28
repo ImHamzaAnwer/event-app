@@ -33,6 +33,9 @@ export default function AdminDashboard() {
   };
 
   const getStatusBadge = (event: IEvent) => {
+    const eventDateTime = new Date(`${event.date}T${event.time}`);
+    const now = new Date();
+
     if (event.isCancelled) {
       return (
         <span className="px-2 py-1 bg-red-500/20 text-red-500 rounded text-xs">
@@ -41,25 +44,10 @@ export default function AdminDashboard() {
       );
     }
 
-    // Check if event is happening now (date and time match current time)
-    const eventDateTime = new Date(`${event.date}T${event.time}`);
-    const now = new Date();
-    const isHappeningNow =
-      eventDateTime <= now &&
-      now <= new Date(eventDateTime.getTime() + 3 * 60 * 60 * 1000); // 3 hours window
-
-    if (isHappeningNow) {
-      return (
-        <span className="px-2 py-1 bg-purple-500/20 text-purple-500 rounded text-xs">
-          Happening Now
-        </span>
-      );
-    }
-
     if (eventDateTime > now) {
       return (
         <span className="px-2 py-1 bg-blue-500/20 text-blue-500 rounded text-xs">
-          Coming Soon
+          Upcoming
         </span>
       );
     }

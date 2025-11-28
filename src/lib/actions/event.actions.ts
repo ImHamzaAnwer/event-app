@@ -2,6 +2,7 @@
 
 import { Event, IEvent } from "@/database";
 import connectDB from "../mongodb";
+import getUserDetails from "@/helpers/getUserDetails";
 
 export const getSimilarEventsBySlug = async (slug: string) => {
     try {
@@ -21,4 +22,11 @@ export const getSimilarEventsBySlug = async (slug: string) => {
         console.error("getSimilarEventsBySlug failed", error);
         return [];
     }
-} 
+}
+
+export const getAllEvents = async () => {
+    await connectDB()
+    const user = await getUserDetails(); // works in server component
+    const events = await Event.find({ createdBy: user?._id }).lean<IEvent[]>().sort({ createdAt: -1 });
+    return events;
+}

@@ -1,10 +1,10 @@
 import EventCard from "@/components/EventCard";
 import ExploreBtn from "@/components/ExploreBtn";
 import { IEvent } from "@/database";
-import { fetchEvents } from "@/lib/eventService";
+import { getAllEvents } from "@/lib/actions/event.actions";
 
 const Home = async () => {
-  const events: IEvent[] = await fetchEvents();
+  const events: IEvent[] = await getAllEvents();
 
   return (
     <section>

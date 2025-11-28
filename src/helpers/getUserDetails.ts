@@ -16,8 +16,6 @@ const getUserIdFromToken = async () => {
         const cookieStore = await cookies();
         const tokenValue = cookieStore.get("token")?.value;
 
-        console.log(tokenValue, "tokenValue")
-
         if (!tokenValue) {
             return null
         }

@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
+import { Merriweather } from "next/font/google";
 import "./globals.css";
-import NavBar from "@/components/NavBar";
 
-const schibstedGrotesk = Schibsted_Grotesk({
-  variable: "--font-schibsted-grotesk",
+// Merriweather for headings
+const merriweather = Merriweather({
   subsets: ["latin"],
-});
-
-const martianMono = Martian_Mono({
-  variable: "--font-martian-mono",
-  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,11 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${schibstedGrotesk.variable} ${martianMono.variable} min-h-screen antialiased`}
-      >
+      <body className={`${merriweather.className} min-h-screen antialiased`}>
         {/* <NavBar /> */}
-        <div className="absolute inset-0 top-0 z-[-1] min-h-screen"></div>
+        {/* <div className="absolute inset-0 top-0 z-[-1] min-h-screen"></div> */}
 
         <main>{children}</main>
       </body>

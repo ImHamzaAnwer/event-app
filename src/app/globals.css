@@ -3,6 +3,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-arts-primary: #8b1313;
+  --color-arts-light: #f5d4d4;
+  --color-arts-dark: #4a0707;
+  --color-arts-accent: #d93e3e;
+  --color-arts-beige: #f4ece4;
+}
+
 .font-heading {
   font-family: "Merriweather", serif;
 }

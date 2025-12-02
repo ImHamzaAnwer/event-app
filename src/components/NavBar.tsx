@@ -8,13 +8,13 @@ const NavBar = async () => {
 
   return (
     <header>
-      <nav>
-        <Link href="/" className="logo">
+      <nav className="flex justify-between items-center bg-black text-white p-5">
+        <Link href="/" className="logo flex items-center gap-2 font-bold">
           <Image src="/icons/logo.png" alt="Logo" width={24} height={24} />
-          <p>DevEvents</p>
+          <p>Arts</p>
         </Link>
 
-        <ul>
+        <ul className="flex gap-4">
           <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
           <Link href="/dashboard">Manage Events</Link>

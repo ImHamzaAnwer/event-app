@@ -85,7 +85,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
       });
 
       if (isEditing) formDataToSend.append("eventId", initialData._id);
-    
+
       // Add arrays as JSON strings
       formDataToSend.append("tags", JSON.stringify(tags));
       formDataToSend.append("composers", JSON.stringify(composers));
@@ -479,7 +479,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
-                    addToArray(tagInput, setTags, setTagInput);
+                    addToArray(tagInput?.toLowerCase(), setTags, setTagInput);
                   }
                 }}
                 placeholder="Add tag"

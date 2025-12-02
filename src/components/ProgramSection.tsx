@@ -130,7 +130,7 @@ const ProgramsPage = () => {
           <div
             key={item.id}
             role="listitem"
-            className="bg-orange-500 item w-screen h-full grid grid-cols-2 absolute inset-0 shadow-[0px_8px_24px_rgba(149,157,165,0.2)] overflow-hidden"
+            className="item w-screen h-full grid grid-cols-2 absolute inset-0 shadow-[0px_8px_24px_rgba(149,157,165,0.2)] overflow-hidden"
           >
             {/* CONTENT */}
             <div className="item_content h-full bg-white text-[#292929] flex flex-col justify-center items-start p-12 relative">

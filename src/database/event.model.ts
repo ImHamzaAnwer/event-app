@@ -15,8 +15,9 @@ export interface IEvent extends Document {
   tags: string[];
   isCancelled: boolean;
   createdBy: Types.ObjectId;
-  capacity?: number;
-  price?: number;
+  ticketPrice: number;
+  totalTickets: number;
+  ticketsSold: number;
   featured?: boolean;
   // Classical music specific fields
   composers?: string[];
@@ -96,13 +97,20 @@ const EventSchema = new Schema<IEvent>(
       ref: 'User',
       required: [true, 'Created by is required'],
     },
-    capacity: {
+    ticketPrice: {
       type: Number,
-      min: [1, 'Capacity must be at least 1'],
+      required: true,
+      min: 0,
     },
-    price: {
+    totalTickets: {
       type: Number,
-      min: [0, 'Price cannot be negative'],
+      required: true,
+      min: 1,
+    },
+    
+    ticketsSold: {
+      type: Number,
+      default: 0,
     },
     featured: {
       type: Boolean,
@@ -227,5 +235,9 @@ EventSchema.index({ createdBy: 1 });
 EventSchema.index({ composers: 1 });
 
 const Event = models.Event || model<IEvent>('Event', EventSchema);
+
+export type EventLean = Omit<IEvent, keyof Document> & {
+  _id: Types.ObjectId;
+};
 
 export default Event;

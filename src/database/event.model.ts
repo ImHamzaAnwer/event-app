@@ -1,28 +1,35 @@
 import { Schema, model, models, Document, Types } from 'mongoose';
 
-// TypeScript interface for Event document
 export interface IEvent extends Document {
   title: string;
   slug: string;
   description: string;
   overview: string;
   image: string;
+
+  type: "music" | "dance" | "theatre" | "festival" | "other";
+
   venue: string;
   location: string;
   date: string;
   time: string;
+
   organizer: string;
   tags: string[];
+
   isCancelled: boolean;
   createdBy: Types.ObjectId;
+
   ticketPrice: number;
   totalTickets: number;
   ticketsSold: number;
+
   featured?: boolean;
-  // Classical music specific fields
-  composers?: string[];
-  program?: string[]; // List of pieces/works being performed
-  performers?: string[]; // Soloists, orchestras, ensembles
+
+  // Generic performance metadata
+  participants?: string[]; // artists, actors, dancers, speakers
+  program?: string[];      // setlist, acts, scenes, pieces
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -107,7 +114,6 @@ const EventSchema = new Schema<IEvent>(
       required: true,
       min: 1,
     },
-    
     ticketsSold: {
       type: Number,
       default: 0,
@@ -116,24 +122,23 @@ const EventSchema = new Schema<IEvent>(
       type: Boolean,
       default: false,
     },
-    // Classical music specific fields
-    composers: {
-      type: [{
-        type: String,
-        trim: true,
-      }],
-    },
     program: {
       type: [{
         type: String,
         trim: true,
       }],
     },
-    performers: {
+    participants: {
       type: [{
         type: String,
         trim: true,
       }],
+    },
+    type: {
+      type: String,
+      enum: ["music", "dance", "theatre", "festival", "other"],
+      required: true,
+      index: true,
     },
   },
   {

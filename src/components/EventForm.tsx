@@ -40,20 +40,20 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
   const [tags, setTags] = useState<string[]>([]);
   const [composers, setComposers] = useState<string[]>([]);
   const [program, setProgram] = useState<string[]>([]);
-  const [performers, setPerformers] = useState<string[]>([]);
+  const [participants, setParticipants] = useState<string[]>([]);
 
   // Array input helpers
   const [tagInput, setTagInput] = useState("");
   const [composerInput, setComposerInput] = useState("");
   const [programInput, setProgramInput] = useState("");
-  const [performerInput, setPerformerInput] = useState("");
+  const [participantInput, setParticipantInput] = useState("");
 
   useEffect(() => {
     if (!initialData) return;
     setTags(initialData.tags ?? []);
     setComposers(initialData.composers ?? []);
     setProgram(initialData.program ?? []);
-    setPerformers(initialData.performers ?? []);
+    setParticipants(initialData.participants ?? []);
     setExistingImage(initialData.image || "");
 
     setFormData((prev) => ({
@@ -90,7 +90,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
       formDataToSend.append("tags", JSON.stringify(tags));
       formDataToSend.append("composers", JSON.stringify(composers));
       formDataToSend.append("program", JSON.stringify(program));
-      formDataToSend.append("performers", JSON.stringify(performers));
+      formDataToSend.append("participants", JSON.stringify(participants));
 
       // Add image file
       if (imageFile) {
@@ -415,19 +415,19 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Performers</label>
+            <label className="block text-sm font-medium mb-1">Participants</label>
             <div className="flex gap-2 mb-2">
               <input
                 type="text"
-                value={performerInput}
-                onChange={(e) => setPerformerInput(e.target.value)}
+                value={participantInput}
+                onChange={(e) => setParticipantInput(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     addToArray(
-                      performerInput,
-                      setPerformers,
-                      setPerformerInput
+                      participantInput,
+                      setParticipants,
+                      setParticipantInput
                     );
                   }
                 }}
@@ -437,7 +437,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
               <button
                 type="button"
                 onClick={() =>
-                  addToArray(performerInput, setPerformers, setPerformerInput)
+                  addToArray(participantInput, setParticipants, setParticipantInput)
                 }
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
               >
@@ -445,15 +445,15 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
-              {performers.map((performer, idx) => (
+              {participants.map((participant, idx) => (
                 <span
                   key={idx}
                   className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm flex items-center gap-2"
                 >
-                  {performer}
+                  {participant}
                   <button
                     type="button"
-                    onClick={() => removeFromArray(idx, setPerformers)}
+                    onClick={() => removeFromArray(idx, setParticipants)}
                     className="text-purple-600 hover:text-purple-800"
                   >
                     ×

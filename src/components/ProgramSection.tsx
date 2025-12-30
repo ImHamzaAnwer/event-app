@@ -42,83 +42,74 @@ const itemsData = [
 
 const ProgramsPage = () => {
   useEffect(() => {
-    const scrollSections = document.querySelectorAll(".scroll-section");
+    const scrollSection = document.querySelector(".programs")!;
 
-    scrollSections.forEach((section) => {
-      const wrapper = section.querySelector(".wrapper");
-      if (!wrapper) return;
-      const items = wrapper.querySelectorAll(".item");
+    const wrapper = scrollSection.querySelector(".wrapper");
+    if (!wrapper) return;
+    const items = wrapper.querySelectorAll(".item");
 
-      const direction = section.classList.contains("vertical-section")
-        ? "vertical"
-        : "horizontal";
+    // Initialize positions
+    items.forEach((item, index) => {
+      if (index !== 0) {
+        gsap.set(item, { xPercent: 120 });
+      }
+    });
 
-      // Initialize positions
-      items.forEach((item, index) => {
-        if (index !== 0) {
-          direction === "horizontal"
-            ? gsap.set(item, { xPercent: 100 })
-            : gsap.set(item, { yPercent: 100 });
-        }
+    // Timeline for stacking scroll
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: scrollSection,
+        pin: true,
+        start: "top top",
+        end: () => `+=${items.length * 100}%`,
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+      defaults: { ease: "none" },
+    });
+
+    items.forEach((item, index) => {
+      timeline.to(item, {
+        scale: index !== items.length - 1 ? 0.9 : 1,
+        borderRadius: "10px",
       });
 
-      // Timeline for stacking scroll
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          start: "top top",
-          end: () => `+=${items.length * 100}%`,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-        defaults: { ease: "none" },
-      });
-
-      items.forEach((item, index) => {
-        timeline.to(item, { scale: 0.9, borderRadius: "10px" });
-
-        if (items[index + 1]) {
-          direction === "horizontal"
-            ? timeline.to(items[index + 1], { xPercent: 0 }, "<")
-            : timeline.to(items[index + 1], { yPercent: 0 }, "<");
-        }
-      });
+      if (items[index + 1]) {
+        timeline.to(items[index + 1], { xPercent: 0 }, "<");
+      }
     });
   }, []);
 
   return (
-    <div className="bg-black">
-      <h2 className="text-white text-center py-10 text-3xl">Our Programs/Initiatives</h2>
-      <div className="scroll-section vertical-section section overflow-hidden bg-black">
-        <div className="wrapper h-screen">
-          {itemsData.map((item) => (
-            <div
-              key={item.id}
-              role="listitem"
-              className="item w-screen h-full grid grid-cols-2 absolute inset-0 shadow-[0px_8px_24px_rgba(149,157,165,0.2)] overflow-hidden"
-            >
-              {/* CONTENT */}
-              <div className="item_content h-full bg-white text-[#292929] flex flex-col justify-center items-start p-12 relative">
-                <h2 className="item_number text-[1.5rem] h-12 w-12 mb-2 rounded-full bg-black text-white flex items-center justify-center font-normal absolute top-24 left-12 sm:text-[0.5rem] sm:top-6">
-                  {item.id}
-                </h2>
-                <h2 className="text-2xl font-semibold">{item.title}</h2>
-                <p className="item_p mt-2">{item.desc}</p>
-              </div>
-
-              {/* MEDIA */}
-              <Image
-                alt=""
-                className="item_media object-cover h-full"
-                src={item.img}
-                loading="lazy"
-                height={500}
-                width={700}
-              />
+    <div className="programs h-screen bg-black px-6 py-10 overflow-hidden">
+      <h2 className="text-white text-4xl mb-10">Our Initiatives</h2>
+      <div className="wrapper relative">
+        {itemsData.map((item) => (
+          <div
+            key={item.id}
+            role="listitem"
+            className="rounded-sm h-[500px] item grid grid-cols-2 absolute shadow-[0px_8px_24px_rgba(255,255,255,0.3)] overflow-hidden grow"
+          >
+            {/* CONTENT */}
+            <div className="item_content h-full bg-white text-[#292929] flex flex-col justify-center items-start p-12 relative">
+              <h2 className="hidden md:flex item_number h-12 w-12 mb-2 rounded-full bg-black text-white  items-center justify-center font-normal absolute top-24 left-12 sm:text-[0.5rem] sm:top-6">
+                {item.id}
+              </h2>
+              <h2 className="text-2xl font-semibold">{item.title}</h2>
+              <p className="item_p mt-2">{item.desc}</p>
             </div>
-          ))}
-        </div>
+
+            {/* MEDIA */}
+            <Image
+              alt=""
+              className="item_media object-cover h-full"
+              src={item.img}
+              loading="lazy"
+              height={500}
+              width={700}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

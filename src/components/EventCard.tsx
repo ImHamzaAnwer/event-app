@@ -21,38 +21,44 @@ const EventCard = ({
 }: EventCardProps) => {
   return (
     <Link href={`/events/${slug}`}>
-      <div className="overflow-hidden rounded-md bg-gray-900 p-2">
-        <div className="w-full h-[200px]">
-          <Image
-            src={image}
-            alt={title}
-            width={100}
-            height={100}
-            className="w-full h-[200px] object-cover rounded-lg"
-          />
+      <div className="w-[360px] h-[260px]">
+        <Image
+          src={image}
+          alt={title}
+          width={150}
+          height={100}
+          className="w-full h-full object-cover rounded-lg"
+        />
+      </div>
+
+      <div className="space-y-2 py-2 px-1">
+        <span className="bg-black text-white py-1 px-2 text-xs rounded-sm">
+          Dance
+        </span>
+
+        <p className="text-lg font-semibold mt-2">{title}</p>
+
+        <div className="flex gap-2">
+          <MapPinned className="size-5" />
+          <p className="text-sm font-light">{location}</p>
         </div>
 
-        <div className="space-y-2 py-2 px-1">
+        <div className="datetime flex gap-2 text-sm font-light">
           <div className="flex gap-2">
-            <MapPinned className="size-5 text-white" />
-            <p className="text-white text-sm font-light">{location}</p>
+            <CalendarDays className="size-5" />
+            <p className="text-sm font-light">{date}</p>
           </div>
 
-          <p className="text-white text-lg">{title}</p>
-
-          <div className="datetime flex gap-2 text-sm font-light">
-            <div className="flex gap-2">
-              <CalendarDays className="size-5 text-white" />
-              <p className="text-white text-sm font-light">{date}</p>
-            </div>
-
-            <div className="flex gap-2">
-              <Clock3 className="size-5 text-white" />
-              <p className="text-white text-sm font-light">{time}</p>
-            </div>
+          <div className="flex gap-2">
+            <Clock3 className="size-5" />
+            <p className="text-sm font-light">{time}</p>
           </div>
         </div>
       </div>
+
+      <button className="btn btn-secondary text-sm block mt-3">
+        More details
+      </button>
     </Link>
   );
 };

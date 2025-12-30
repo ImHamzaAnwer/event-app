@@ -3,13 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
-  --color-arts-primary: #8b1313;
-  --color-arts-light: #f5d4d4;
-  --color-arts-dark: #4a0707;
-  --color-arts-accent: #d93e3e;
-  --color-arts-beige: #f4ece4;
-}
 
 .font-heading {
   font-family: "Merriweather", serif;
@@ -17,4 +10,16 @@
 
 .font-body {
   font-family: "Lora", serif;
+}
+
+.btn{
+  @apply font-semibold py-2 px-4 rounded transition text-sm cursor-pointer tracking-wider;
+}
+
+.btn-primary{
+  @apply bg-red-600 text-white hover:bg-red-700 ;
+}
+
+.btn-secondary{
+  @apply bg-black text-white hover:bg-gray-900 ;
 }

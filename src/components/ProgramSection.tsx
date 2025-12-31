@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import Image from "next/image";
@@ -41,48 +40,56 @@ const itemsData = [
 ];
 
 const ProgramsPage = () => {
-  useEffect(() => {
-    const scrollSection = document.querySelector(".programs")!;
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const scrollSection = document.querySelector(".programs");
+      if (!scrollSection) return;
 
-    const wrapper = scrollSection.querySelector(".wrapper");
-    if (!wrapper) return;
-    const items = wrapper.querySelectorAll(".item");
+      const wrapper = scrollSection.querySelector(".wrapper");
+      if (!wrapper) return;
 
-    // Initialize positions
-    items.forEach((item, index) => {
-      if (index !== 0) {
-        gsap.set(item, { xPercent: 120 });
-      }
-    });
+      const items = wrapper.querySelectorAll(".item");
 
-    // Timeline for stacking scroll
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: scrollSection,
-        pin: true,
-        start: "top top",
-        end: () => `+=${items.length * 100}%`,
-        scrub: 1,
-        invalidateOnRefresh: true,
-      },
-      defaults: { ease: "none" },
-    });
-
-    items.forEach((item, index) => {
-      timeline.to(item, {
-        scale: index !== items.length - 1 ? 0.9 : 1,
-        borderRadius: "10px",
+      items.forEach((item, index) => {
+        if (index !== 0) {
+          gsap.set(item, { xPercent: 120 });
+        }
       });
 
-      if (items[index + 1]) {
-        timeline.to(items[index + 1], { xPercent: 0 }, "<");
-      }
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: scrollSection,
+          pin: true,
+          start: "top top",
+          end: () => `+=${items.length * 100}%`,
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+        defaults: { ease: "none" },
+      });
+
+      items.forEach((item, index) => {
+        timeline.to(item, {
+          scale: index !== items.length - 1 ? 0.9 : 1,
+          borderRadius: "10px",
+        });
+
+        if (items[index + 1]) {
+          timeline.to(items[index + 1], { xPercent: 0 }, "<");
+        }
+      });
     });
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
     <div className="programs h-screen bg-black px-6 py-10 overflow-hidden">
-      <h2 className="text-white text-4xl mb-10">Our Initiatives</h2>
+      <h2 className="text-white text-4xl mb-10 font-heading">
+        Our Initiatives
+      </h2>
       <div className="wrapper relative">
         {itemsData.map((item) => (
           <div
@@ -92,10 +99,12 @@ const ProgramsPage = () => {
           >
             {/* CONTENT */}
             <div className="item_content h-full bg-white text-[#292929] flex flex-col justify-center items-start p-12 relative">
-              <h2 className="hidden md:flex item_number h-12 w-12 mb-2 rounded-full bg-black text-white  items-center justify-center font-normal absolute top-24 left-12 sm:text-[0.5rem] sm:top-6">
+              <h2 className="absolute top-10 hidden md:flex item_number h-12 w-12 mb-2 rounded-full bg-black text-white  items-center justify-center font-normal">
                 {item.id}
               </h2>
-              <h2 className="text-2xl font-semibold">{item.title}</h2>
+              <h2 className="text-2xl font-semibold text-red-600">
+                {item.title}
+              </h2>
               <p className="item_p mt-2">{item.desc}</p>
             </div>
 

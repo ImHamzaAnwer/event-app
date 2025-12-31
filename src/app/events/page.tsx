@@ -7,7 +7,7 @@ const EventsPage = async () => {
 
   return (
     <section className="bg-arts-beige p-5">
-      <h1 className="text-arts-primary text-3xl font-semibold font-heading">
+      <h1 className="text-4xl font-bold font-heading mb-5">
         Featured Events
       </h1>
 

@@ -9,6 +9,7 @@ interface EventCardProps {
   date: string;
   time: string;
   slug: string;
+  width?: string;
 }
 
 const EventCard = ({
@@ -18,16 +19,17 @@ const EventCard = ({
   date,
   time,
   slug,
+  width = "100%",
 }: EventCardProps) => {
   return (
     <Link href={`/events/${slug}`}>
-      <div className="w-[360px] h-[260px]">
+      <div style={{ width }} className="h-[260px]">
         <Image
           src={image}
           alt={title}
           width={150}
           height={100}
-          className="w-full h-full object-cover rounded-lg"
+          className="w-full h-full object-cover rounded-lg grayscale-100"
         />
       </div>
 

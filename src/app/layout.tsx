@@ -25,8 +25,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${merriweather.variable} min-h-screen antialiased`}>
         <NavBar />
-        {/* <div className="absolute inset-0 top-0 z-[-1] min-h-screen"></div> */}
-
         <main>{children}</main>
       </body>
     </html>

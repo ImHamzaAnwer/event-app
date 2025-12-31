@@ -25,10 +25,11 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
     date: initialData?.date?.split("T")[0] || "",
     time: initialData?.time || "",
     organizer: initialData?.organizer || "",
-    capacity: initialData?.capacity || 0,
-    price: initialData?.price || 0,
+    totalTickets: initialData?.totalTickets || 0,
+    ticketPrice: initialData?.ticketPrice || 0,
     featured: initialData?.featured || false,
     isCancelled: initialData?.isCancelled || false,
+    type: initialData?.eventType || "other",
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -47,6 +48,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
   const [composerInput, setComposerInput] = useState("");
   const [programInput, setProgramInput] = useState("");
   const [participantInput, setParticipantInput] = useState("");
+  const [eventType, setEventType] = useState("other");
 
   useEffect(() => {
     if (!initialData) return;
@@ -58,8 +60,8 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
 
     setFormData((prev) => ({
       ...prev,
-      capacity: initialData.capacity ?? "",
-      price: initialData.price ?? "",
+      totalTickets: initialData.totalTickets ?? "",
+      ticketPrice: initialData.ticketPrice ?? "",
     }));
   }, [initialData]);
 
@@ -204,6 +206,21 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
           </div>
 
           <div>
+            <label className="block text-sm font-medium mb-1">Type</label>
+            <select
+              value={eventType}
+              onChange={(e) => setEventType(e.target.value)}
+              className="px-3 py-2 border rounded-md min-w-40"
+            >
+              <option value="dance">Dance</option>
+              <option value="music">Music</option>
+              <option value="theatre">Theatre</option>
+              <option value="festival">Festival</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
             <label className="block text-sm font-medium mb-1">
               Image <span className="text-red-500">*</span>
             </label>
@@ -322,7 +339,7 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
 
       {/* Classical Music Fields */}
       <div className="bg-white text-black! p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">Classical Music Details</h2>
+        <h2 className="text-xl font-semibold mb-4">Program Details</h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Composers</label>
@@ -415,7 +432,9 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Participants</label>
+            <label className="block text-sm font-medium mb-1">
+              Participants
+            </label>
             <div className="flex gap-2 mb-2">
               <input
                 type="text"
@@ -437,7 +456,11 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
               <button
                 type="button"
                 onClick={() =>
-                  addToArray(participantInput, setParticipants, setParticipantInput)
+                  addToArray(
+                    participantInput,
+                    setParticipants,
+                    setParticipantInput
+                  )
                 }
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
               >
@@ -514,27 +537,27 @@ const EventForm = ({ initialData, mode }: EventFormProps) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Capacity</label>
+              <label className="block text-sm font-medium mb-1">Total Tickets</label>
               <input
                 type="number"
                 min="1"
-                value={formData.capacity}
+                value={formData.totalTickets}
                 onChange={(e) =>
-                  setFormData({ ...formData, capacity: e.target.value })
+                  setFormData({ ...formData, totalTickets: e.target.value })
                 }
                 className="w-full px-3 py-2 border rounded-md"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Price</label>
+              <label className="block text-sm font-medium mb-1">Ticket Price</label>
               <input
                 type="number"
                 min="0"
-                step="0.01"
-                value={formData.price}
+                step="0.1"
+                value={formData.ticketPrice}
                 onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
+                  setFormData({ ...formData, ticketPrice: e.target.value })
                 }
                 className="w-full px-3 py-2 border rounded-md"
               />

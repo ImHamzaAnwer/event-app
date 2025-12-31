@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
@@ -87,104 +88,93 @@ const EventDetailsPage = async ({
 
   const similarEvents = await getSimilarEventsBySlug(slug);
 
-  const bookings = 10;
-
   return (
-    <section id="event" className="max-w-6xl mx-auto px-4 py-12">
+    <section id="event" className="p-6">
       {/* HEADER */}
-      <header className="mb-10">
-        <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
-        <p className="mt-3 text-gray-600 text-lg">{description}</p>
-      </header>
 
       {/* MAIN CONTENT */}
-      <div className="flex flex-col lg:flex-row gap-12">
-        {/* LEFT CONTENT */}
-        <div className="flex-1 space-y-10">
-          <Image
-            className="rounded-xl w-full object-cover"
+
+      {/* LEFT CONTENT */}
+      <div className="flex flex-col gap-2">
+        <div className="h-[300px] w-full relative overflow-hidden">
+          <img
+            className="h-full rounded-md block w-full object-cover"
             src={image}
-            width={1200}
-            height={800}
             alt="banner"
           />
+          <header className="flex flex-col justify-end bg-linear-to-t from-black to-black/30 absolute inset-0 p-4 rounded-md text-white">
+            <h1 className="text-4xl font-bold">{title}</h1>
+            <p className="mt-1.5 text-lg">{description}</p>
+          </header>
+        </div>
+      </div>
 
-          {/* Overview */}
-          <section>
-            <h2 className="text-2xl font-semibold mb-2">Overview</h2>
-            <p className="text-gray-700">{overview}</p>
-          </section>
+      <div className="flex justify-end my-2">
+        <BookEvent slug={slug} />
+      </div>
 
-          {/* Event Details */}
+      <div className="space-y-10">
+        {/* Overview */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-2">Overview</h2>
+          <p className="text-gray-700 max-w-3xl">{overview}</p>
+        </section>
+
+        {/* Event Details */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-3">Event Details</h2>
+          <div className="flex flex-col gap-2">
+            <EventDetailItem icon={Clock3} label={date} />
+            <EventDetailItem icon={CalendarDays} label={time} />
+            <EventDetailItem icon={MapPinned} label={location} />
+          </div>
+        </section>
+
+        {/* Composers */}
+        {composers?.length > 0 && (
           <section>
-            <h2 className="text-2xl font-semibold mb-3">Event Details</h2>
-            <div className="flex flex-col gap-2">
-              <EventDetailItem icon={Clock3} label={date} />
-              <EventDetailItem icon={CalendarDays} label={time} />
-              <EventDetailItem icon={MapPinned} label={location} />
+            <h2 className="text-2xl font-semibold mb-3">Composers</h2>
+            <div className="flex flex-wrap gap-2">
+              {composers.map((composer: string) => (
+                <span
+                  key={composer}
+                  className="px-3 py-1 bg-gray-200 rounded-full text-gray-700"
+                >
+                  {composer}
+                </span>
+              ))}
             </div>
           </section>
+        )}
 
-          {/* Composers */}
-          {composers?.length > 0 && (
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">Composers</h2>
-              <div className="flex flex-wrap gap-2">
-                {composers.map((composer: string) => (
-                  <span
-                    key={composer}
-                    className="px-3 py-1 bg-gray-200 rounded-full text-gray-700"
-                  >
-                    {composer}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Performers */}
-          {performers?.length > 0 && (
-            <section>
-              <h2 className="text-2xl font-semibold mb-3">Performers</h2>
-              <div className="flex flex-wrap gap-2">
-                {performers.map((performer: string) => (
-                  <span
-                    key={performer}
-                    className="px-3 py-1 bg-gray-200 rounded-full text-gray-700"
-                  >
-                    {performer}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Program */}
-          <EventProgram programItems={program} />
-
-          {/* Organizer */}
+        {/* Performers */}
+        {performers?.length > 0 && (
           <section>
-            <h2 className="text-2xl font-semibold mb-3">About the Organizer</h2>
-            <p className="text-gray-700">{organizer}</p>
+            <h2 className="text-2xl font-semibold mb-3">Performers</h2>
+            <div className="flex flex-wrap gap-2">
+              {performers.map((performer: string) => (
+                <span
+                  key={performer}
+                  className="px-3 py-1 bg-gray-200 rounded-full text-gray-700"
+                >
+                  {performer}
+                </span>
+              ))}
+            </div>
           </section>
+        )}
 
-          {/* Tags */}
-          <EventTags tags={tags} />
-        </div>
+        {/* Program */}
+        <EventProgram programItems={program} />
 
-        {/* RIGHT SIDEBAR */}
-        <aside className="lg:w-80 w-full">
-          <div className="p-6 border rounded-xl shadow-sm bg-white sticky top-24">
-            <h2 className="text-xl font-semibold mb-1">Book your spot</h2>
-            <p className="text-sm text-gray-600 mb-4">
-              {bookings > 0
-                ? `Join ${bookings} people who have already booked their spot`
-                : "Be the first to book your spot"}
-            </p>
+        {/* Organizer */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-3">About the Organizer</h2>
+          <p className="text-gray-700">{organizer}</p>
+        </section>
 
-            <BookEvent slug={slug} />
-          </div>
-        </aside>
+        {/* Tags */}
+        <EventTags tags={tags} />
       </div>
 
       {/* SIMILAR EVENTS */}

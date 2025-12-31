@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
         const user = await User.findOne({ email })
 
-        const comparedPass = await bcrypt.compare(password, user.password)
+        const comparedPass = await bcrypt.compare(password, user?.password)
 
         if (!user || !comparedPass) return NextResponse.json({ error: "Incorrect email or password" }, { status: 500 })
 

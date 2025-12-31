@@ -7,12 +7,12 @@ export default async function UpcomingEvents() {
 
   return (
     <div className="py-6 pl-6">
-      <h2 className="text-4xl mb-5 font-bold">Upcoming Events</h2>
+      <h2 className="text-4xl mb-5 font-bold font-heading">Upcoming Events</h2>
       <div className="flex items-center gap-3 overflow-x-auto py-4">
         {events &&
           events.length > 0 &&
           events.map((event: IEvent) => (
-            <EventCard key={event.slug} {...event} />
+            <EventCard width="350px" key={event.slug} {...event} />
           ))}
       </div>
     </div>

@@ -57,7 +57,7 @@ export default function Partners() {
   }, []);
 
   return (
-    <div className="relative py-20 overflow-hidden">
+    <section className="relative py-20 overflow-hidden">
       <p className="text-4xl font-bold text-center">Collaborations</p>
 
       <div className="scroll-section flex items-center mt-14 whitespace-nowrap">
@@ -89,6 +89,6 @@ export default function Partners() {
       <div className="pointer-events-none absolute left-0 top-0 h-full w-30 bg-linear-to-r from-white to-white/0" />
       {/* Right Fade */}
       <div className="pointer-events-none absolute right-0 top-0 h-full w-30 bg-linear-to-l from-white to-white/0" />
-    </div>
+    </section>
   );
 }

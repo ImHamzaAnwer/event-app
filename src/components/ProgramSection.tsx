@@ -86,7 +86,7 @@ const ProgramsPage = () => {
   }, []);
 
   return (
-    <div className="programs h-screen bg-black px-6 py-10 overflow-hidden">
+    <section className="programs h-screen bg-black px-6 py-10 overflow-hidden">
       <h2 className="text-white text-4xl mb-10 font-heading">
         Our Initiatives
       </h2>
@@ -120,7 +120,7 @@ const ProgramsPage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

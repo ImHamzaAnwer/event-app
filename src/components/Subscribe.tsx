@@ -1,6 +1,6 @@
 export default function Subscribe() {
   return (
-    <div className="flex flex-col justify-between px-10 py-10 min-h-screen bg-black bg-[url('https://images.unsplash.com/photo-1550026593-bdab027adb6a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-center">
+    <section className="flex flex-col justify-between px-10 py-10 min-h-screen bg-black bg-[url('https://images.unsplash.com/photo-1550026593-bdab027adb6a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-center">
       <p className="text-6xl text-white font-bold text-right">
         Arts Council. The STAGE to set untold amazing stories.
       </p>
@@ -25,6 +25,6 @@ export default function Subscribe() {
           </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 }

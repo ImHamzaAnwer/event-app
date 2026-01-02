@@ -95,7 +95,7 @@ const ProgramsPage = () => {
           <div
             key={item.id}
             role="listitem"
-            className="rounded-sm h-[500px] item grid grid-cols-2 absolute shadow-[0px_8px_24px_rgba(255,255,255,0.3)] overflow-hidden grow"
+            className="rounded-sm h-[500px] item grid grid-cols-2 absolute overflow-hidden grow"
           >
             {/* CONTENT */}
             <div className="item_content h-full bg-white text-[#292929] flex flex-col justify-center items-start p-12 relative">

@@ -95,11 +95,11 @@ const ProgramsPage = () => {
           <div
             key={item.id}
             role="listitem"
-            className="rounded-sm h-[500px] item grid grid-cols-2 absolute overflow-hidden grow"
+            className="rounded-sm h-[500px] item grid md:grid-cols-2 absolute overflow-hidden grow"
           >
             {/* CONTENT */}
             <div className="item_content h-full bg-white text-[#292929] flex flex-col justify-center items-start p-12 relative">
-              <h2 className="absolute top-10 hidden md:flex item_number h-12 w-12 mb-2 rounded-full bg-black text-white  items-center justify-center font-normal">
+              <h2 className="absolute top-10 flex item_number h-12 w-12 mb-2 rounded-full bg-black text-white  items-center justify-center font-normal">
                 {item.id}
               </h2>
               <h2 className="text-2xl font-semibold text-red-600">
@@ -111,7 +111,7 @@ const ProgramsPage = () => {
             {/* MEDIA */}
             <Image
               alt=""
-              className="item_media object-cover h-full"
+              className="item_media object-cover h-full hidden md:block"
               src={item.img}
               loading="lazy"
               height={500}

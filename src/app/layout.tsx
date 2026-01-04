@@ -12,7 +12,7 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "Arts Councul",
+  title: "Arts Council Karachi",
   description: "Find the best events for arts and literature",
 };
 
